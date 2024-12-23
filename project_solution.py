@@ -1,6 +1,19 @@
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
+import subprocess
+
+
+def run_landing_to_bronze():
+    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/landing_to_bronze.py"])
+
+
+def run_bronze_to_silver():
+    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/bronze_to_silver.py"])
+
+
+def run_silver_to_gold():
+    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/silver_to_gold.py"])
 
 
 with DAG(
@@ -12,19 +25,19 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    landing_to_bronze = BashOperator(
+    landing_to_bronze = PythonOperator(
         task_id="landing_to_bronze",
-        bash_command="C:/Repos/Python/goit-de-fp/landing_to_bronze.py",
+        python_callable=run_landing_to_bronze,
     )
 
-    bronze_to_silver = BashOperator(
+    bronze_to_silver = PythonOperator(
         task_id="bronze_to_silver",
-        bash_command="C:/Repos/Python/goit-de-fp/bronze_to_silver.py",
+        python_callable=run_bronze_to_silver,
     )
 
-    silver_to_gold = BashOperator(
+    silver_to_gold = PythonOperator(
         task_id="silver_to_gold",
-        bash_command="C:/Repos/Python/goit-de-fp/silver_to_gold.py",
+        python_callable=run_silver_to_gold,
     )
 
     landing_to_bronze >> bronze_to_silver >> silver_to_gold
