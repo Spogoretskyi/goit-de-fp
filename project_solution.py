@@ -5,15 +5,51 @@ import subprocess
 
 
 def run_landing_to_bronze():
-    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/landing_to_bronze.py"])
+    try:
+        print("Starting landing_to_bronze...")
+
+        result = subprocess.run(
+        ["python", "C:\Repos\Python\goit-de-fp\landing_to_bronze.py"],
+        shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print("landing_to_bronze completed successfully!")
+        print(result.stdout.decode())
+    except subprocess.CalledProcessError as e:
+        if e.stderr:
+            print(f"Error occurred: {e.stderr.decode()}")
+        else:
+            print(f"Error occurred, but no stderr output: {e}")
+        raise
 
 
 def run_bronze_to_silver():
-    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/bronze_to_silver.py"])
+    try:
+        result = subprocess.run(
+            ["python", "C:/Repos/Python/goit-de-fp/bronze_to_silver.py"],
+            shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print(result.stdout.decode())
+    except subprocess.CalledProcessError as e:
+        if e.stderr:
+            print(f"Error occurred: {e.stderr.decode()}")
+        else:
+            print(f"Error occurred, but no stderr output: {e}")
+        raise
 
 
 def run_silver_to_gold():
-    subprocess.run(["python", "C:/Repos/Python/goit-de-fp/silver_to_gold.py"])
+    try:
+        result = subprocess.run(
+            ["python", "C:/Repos/Python/goit-de-fp/silver_to_gold.py"],
+            shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print(result.stdout.decode())
+    except subprocess.CalledProcessError as e:
+        if e.stderr:
+            print(f"Error occurred: {e.stderr.decode()}")
+        else:
+            print(f"Error occurred, but no stderr output: {e}")
+        raise
 
 
 with DAG(
